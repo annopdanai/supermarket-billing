@@ -1,37 +1,50 @@
 #include <stdio.h>
 #include <string.h>
+char username;
+char password;
+char option;
+char user;
+char pass;
+
+void Login();
+void Register();
 FILE *f;
 int main()
 {
-    char username[20];
-    char password[20];
+    printf("Welcome!\n");
+    printf("If you're guest, please register. If you're member, please login.\n\n");
+    printf("Option\n");
+    printf("1. Login\n");
+    printf("2. Register\n");
 
-    if((f=fopen("shop.txt","w"))==NULL)
-    {
-        printf("...can not open file...");
-        printf("\n...press any key to exit...");
-    }
+    printf("Enter your option: ");
+    scanf("%s", &option);
+    
+    if (option == '1')
+        Login();
+    else if (option == '2')
+        Register();
+    else
+        printf("\nWrong username or password");
+}
 
-    printf("Please login to continue\n");
-    printf("If you're guest, please use \"guest\" as username and password\n\n");
-
+void Login()
+{
     printf("Enter your username: ");
     scanf("%s", &username);
 
     printf("Enter your password: ");
     scanf("%s", &password);
 
-    if(strcmp(username,"guest")==0){
-        if(strcmp(password,"guest")==0){
-            printf("\nWelcome! You're currently logging in as guest.");
-        }
-    }
-
-    else if (strcmp(username,"admin")==0){
-            if(strcmp(password,"password")==0){
+    if (username == "admin"){
+            if (password == "password"){
                 printf("\nWelcome! You're currently logging in as admin.");
                 }
             }
-    else
-        printf("\nWrong username or password");
+
+}
+
+void Register()
+{
+    //register
 }
