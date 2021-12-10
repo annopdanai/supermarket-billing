@@ -257,6 +257,7 @@ modules.xml
 .idea/sonarlint
 
 ### CMake ###
+CMakeLists.txt
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
@@ -273,4 +274,4 @@ _deps
 # External projects
 *-prefix/
 .vscode/settings.json
-CMakeLists.txt
+userData.txt

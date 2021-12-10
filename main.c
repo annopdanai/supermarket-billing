@@ -1,14 +1,20 @@
+//Login system still not work
+//but this is how it's supposed to look like
+
 #include <stdio.h>
 #include <string.h>
-char username;
-char password;
-char option;
-char user;
-char pass;
+#include <stdlib.h>
+
+struct user{
+    char username[30];
+    char password[20];
+};
+
+int option;
 
 void Login();
 void Register();
-FILE *f;
+
 int main()
 {
     printf("Welcome!\n");
@@ -18,30 +24,54 @@ int main()
     printf("2. Register\n");
 
     printf("Enter your option: ");
-    scanf("%s", &option);
-    
-    if (option == '1')
+    scanf("%d", &option);
+
+    if (option == 1)
         Login();
-    else if (option == '2')
+    else if (option == 2)
         Register();
     else
-        printf("\nWrong username or password");
+        printf("\nWrong choice\n\n");
+        if (system("CLS")) system("clear");
+        main();
 }
 
 void Login()
 {
-    printf("Enter your username: ");
-    scanf("%s", &username);
+    char username[30],password[20];
+    struct user user;
+    FILE *userData = fopen("userData.txt", "r");
+    if (userData == NULL)
+    {
+        fputs("Error at opening File!", stderr);
+        exit(1);
+    }
 
-    printf("Enter your password: ");
-    scanf("%s", &password);
+    printf("\nPlease Enter your login credentials below\n\n");
+    printf("Username: ");
+    scanf("%s",username);
+    printf("\nPassword: ");
+    scanf("%s",password);
+    printf("\n");
 
-    if (username == "admin"){
-            if (password == "password"){
-                printf("\nWelcome! You're currently logging in as admin.");
-                }
-            }
+    while(fread(&user,sizeof(user),1,userData))
+    {
+        if(strcmp(username,"admin")==0 && strcmp(password,"password")==0)
+        {
+            printf("\nSuccessful Login\n");
+        }
+        else if(strcmp(username,user.username)==0 && strcmp(password,user.password)==0)
+        {
+            printf("\nSuccessful Login\n");
+            printf("\nUsername: %s\n", username);
+        }
+        else
+        {
+            printf("\nIncorrect Login Details\nPlease enter the correct credentials\n");
+        }
+    }
 
+    fclose(userData);
 }
 
 void Register()
