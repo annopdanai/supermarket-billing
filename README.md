@@ -6,3 +6,4 @@ We are willing to make a supermarket billing program for giving service both use
 * Annopdanai Pamarapa (64011337)
 * Thachawich Maneepakhathorn (64011657)
 * Thanawat Rodklay (64011671)
+ 
