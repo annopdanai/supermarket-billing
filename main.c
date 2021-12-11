@@ -23,7 +23,7 @@ int main()
     printf("Option\n");
     printf("1. Login\n");
     printf("2. Register\n");
-    printf("3. Exit\n");
+    printf("3. Exit\n"); // still not update in github
 
     printf("Enter your option: ");
     scanf("%d", &option);
@@ -35,9 +35,22 @@ int main()
     else if (option == 3)
         exit(1);
     else
+    {
+        /*
+         //Mac&Linux//
+         printf("\nWrong choice\n\n");
+         printf("Please input anything to continue ... \t");
+         system("read")
+        */
+        
+        //Windows//
+        char buffer[20];
         printf("\nWrong choice\n\n");
-        if (system("CLS")) system("clear");
-        main();
+        printf("Please input anything to continue ... \t");
+        scanf("%s", buffer);
+    }
+    if (system("CLS")) system("clear");
+    main();
 }
 
 void Login()
