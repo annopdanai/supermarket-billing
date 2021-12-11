@@ -74,8 +74,7 @@ void Login()
 
 void Register()
 {
-    char username[30],password[20];
-    FILE *file_userData = fopen("userData.txt", "w");
+    FILE *file_userData = fopen("userData.txt", "a");
     struct user u;
     
     printf("\nStart registration process\n");
