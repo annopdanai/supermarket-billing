@@ -75,26 +75,22 @@ void Login()
 void Register()
 {
     char username[30],password[20];
-    FILE *userData = fopen("userData.txt", "w");
-    struct user user;
-    if (userData == NULL)
-    {
-        fputs("Error at opening file!", stderr);
-        exit(1);
-    }
+    FILE *file_userData = fopen("userData.txt", "w");
+    struct user u;
+    
     printf("\nStart registration process\n");
     printf("Please enter your credentials below\n\n");
 
     printf("Username: ");
-    scanf("%s",user.username);
+    scanf("%s",u.username);
 
     printf("Password: ");
-    scanf("%s",user.password);
+    scanf("%s",u.password);
 
-    printf("\n--- Registration complete ---\nUsername: %s Password: %s\n", user.username, user.password);
+    printf("\n--- Registration complete ---\nUsername: %s Password: %s\n", u.username, u.password);
 
     printf("\n");
-    fprintf(userData, "Username: %s Password: %s \n", user.username, user.password);
-    fclose(userData);
+    fprintf(file_userData, "Username: %s Password: %s \n", u.username, u.password);
+    fclose(file_userData);
     main();
 }
