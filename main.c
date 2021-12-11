@@ -1,5 +1,6 @@
-//Login system still not work
+//Login and registration system still not work
 //but this is how it's supposed to look like
+//TODO:Fix read/write file bug for login/register
 
 #include <stdio.h>
 #include <string.h>
@@ -43,17 +44,15 @@ void Login()
     FILE *userData = fopen("userData.txt", "r");
     if (userData == NULL)
     {
-        fputs("Error at opening File!", stderr);
+        fputs("Error at opening file!", stderr);
         exit(1);
     }
-
-    printf("\nPlease Enter your login credentials below\n\n");
+    printf("Please enter your login credentials below\n\n");
     printf("Username: ");
-    scanf("%s",username);
+    scanf("%s",user.username);
     printf("\nPassword: ");
-    scanf("%s",password);
+    scanf("%s",user.password);
     printf("\n");
-
     while(fread(&user,sizeof(user),1,userData))
     {
         if(strcmp(username,"admin")==0 && strcmp(password,"password")==0)
@@ -70,11 +69,28 @@ void Login()
             printf("\nIncorrect Login Details\nPlease enter the correct credentials\n");
         }
     }
-
     fclose(userData);
 }
 
 void Register()
 {
-    //register
+    char username[30],password[20];
+    FILE *userData = fopen("userData.txt", "w");
+    struct user user;
+    if (userData == NULL)
+    {
+        fputs("Error at opening file!", stderr);
+        exit(1);
+    }
+    printf("Start registration process\n");
+    printf("Please enter your credentials below\n\n");
+    printf("Username: ");
+    scanf("%s",user.username);
+    printf("\nPassword: ");
+    scanf("%s",user.password);
+    printf("\n");
+    fwrite(&user,sizeof(user),1,userData);
+    fclose(userData);
+    printf("Registration complete\n");
+    Login();
 }
