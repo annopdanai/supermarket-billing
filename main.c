@@ -82,15 +82,19 @@ void Register()
         fputs("Error at opening file!", stderr);
         exit(1);
     }
-    printf("Start registration process\n");
+    printf("\nStart registration process\n");
     printf("Please enter your credentials below\n\n");
+
     printf("Username: ");
     scanf("%s",user.username);
-    printf("\nPassword: ");
+
+    printf("Password: ");
     scanf("%s",user.password);
+
+    printf("\n--- Registration complete ---\nUsername: %s Password: %s\n", user.username, user.password);
+
     printf("\n");
-    fwrite(&user,sizeof(user),1,userData);
+    fprintf(userData, "Username: %s Password: %s \n", user.username, user.password);
     fclose(userData);
-    printf("Registration complete\n");
-    Login();
+    main();
 }
