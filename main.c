@@ -23,6 +23,7 @@ int main()
     printf("Option\n");
     printf("1. Login\n");
     printf("2. Register\n");
+    printf("3. Exit\n");
 
     printf("Enter your option: ");
     scanf("%d", &option);
@@ -31,6 +32,8 @@ int main()
         Login();
     else if (option == 2)
         Register();
+    else if (option == 3)
+        exit(1);
     else
         printf("\nWrong choice\n\n");
         if (system("CLS")) system("clear");
