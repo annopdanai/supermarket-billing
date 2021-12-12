@@ -61,26 +61,26 @@ int main()
 void Login()
 {
     char username[30],password[20];
-    struct user user;
-    FILE *userData = fopen("userData.txt", "r");
-    if (userData == NULL)
+    struct user u;
+    FILE *file_userData = fopen("userData.txt", "r");
+    if (file_userData == NULL)
     {
         fputs("Error at opening file!", stderr);
         exit(1);
     }
     printf("Please enter your login credentials below\n\n");
     printf("Username: ");
-    scanf("%s",user.username);
+    scanf("%s",u.username);
     printf("\nPassword: ");
-    scanf("%s",user.password);
+    scanf("%s",u.password);
     printf("\n");
-    while(fread(&user,sizeof(user),1,userData))
+    while(fread(&u,sizeof(u),1,file_userData))
     {
         if(strcmp(username,"admin")==0 && strcmp(password,"password")==0)
         {
             printf("\nSuccessful Login\n");
         }
-        else if(strcmp(username,user.username)==0 && strcmp(password,user.password)==0)
+        else if(strcmp(username,u.username)==0 && strcmp(password,u.password)==0)
         {
             printf("\nSuccessful Login\n");
             printf("\nUsername: %s\n", username);
@@ -90,7 +90,7 @@ void Login()
             printf("\nIncorrect Login Details\nPlease enter the correct credentials\n");
         }
     }
-    fclose(userData);
+    fclose(file_userData);
 }
 
 void Register()
