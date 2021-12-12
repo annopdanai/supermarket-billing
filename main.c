@@ -5,6 +5,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <conio.h>
+#include <iostream>
+#include <fstream>
+
+using namespace std;
 
 struct user{
     char username[30];
@@ -108,4 +113,108 @@ void Register()
     fprintf(file_userData, "Username: %s Password: %s \n", u.username, u.password);
     fclose(file_userData);
     main();
+}
+
+class product
+{
+	int number;
+	char name[50];
+	float price;
+
+public:
+
+	void create()
+	{
+		cout << endl << "Enter Product Number: ";
+		cin >> number;
+		cout << endl << "Enter Name: ";
+		cin.ignore();
+		cin.getline(name, 50);
+		cout << endl << "Enter Price: ";
+		cin >> price;
+	}
+	int getProduct()
+	{
+		return number;
+	}
+
+	float getPrice()
+	{
+		return price;
+	}
+
+	char* getName()
+	{
+		return name;
+	}
+};
+
+fstream fp;
+product produc;
+
+void save()
+{
+	fp.open("item.txt", ios::out | ios::app);
+	produc.create();
+	fp.write((char*)&produc, sizeof(product));
+	fp.close();
+	system("cls");
+	cout << endl << endl << "Product created";
+}
+
+void menu()
+{
+	system("cls");
+	fp.open("item.txt", ios::in);
+
+	cout << endl << endl << "\t\tProduct MENU\n\n";
+	cout << "-----------------------------------------------------\n";
+	cout << "P.NO.\t\tNAME\t\tPRICE\n";
+	cout << "-----------------------------------------------------\n";
+	while (fp.read((char*)&produc, sizeof(product)))
+	{
+		cout << produc.getProduct() << "\t\t" << produc.getName() << "\t\t" << produc.getPrice() << endl;
+	}
+	fp.close();
+}
+
+void buy()
+{
+	int order_arr[50], quan[50], c = 0;
+	float amount, total = 0;
+	char ch = 'Y';
+	menu();
+	cout << "\n--------------------------------------------------";
+	cout << "\n SELECT ORDER";
+	cout << "\n--------------------------------------------------\n";
+	do {
+		cout << "\n\nEnter Product no.: ";
+		cin >> order_arr[c];
+		cout << "\nEnter Amount: ";
+		cin >> quan[c];
+		c++;
+		cout << "\nAnything else you want? (y/n)";
+		cin >> ch;
+	} while (ch == 'y' || ch == 'Y');
+	getchar();
+	system("cls");
+	cout << "\nProduct No.\tProduct Name\tAmount \t\tPrice \t\tTotal ";
+	for (int x = 0;x <= c;x++)
+	{
+		fp.open("item.txt", ios::in);
+		fp.read((char*)&produc, sizeof(product));
+		while (!fp.eof())
+		{
+			if (produc.getProduct() == order_arr[x])
+			{
+				amount = produc.getPrice() * quan[x];
+				cout << "\n" << order_arr[x] << "\t\t" << produc.getName() << "\t\t" << quan[x] << "\t\t" << produc.getPrice() << "\t\t" << amount;
+				total += amount;
+			}
+			fp.read((char*)&produc, sizeof(product));
+		}
+		fp.close();
+	}
+	cout << "\n\n\t\t\t\t\t\t\tTOTAL = " << total;
+	getchar();
 }
