@@ -13,8 +13,12 @@ struct user{
 
 int option;
 
-void Login();
-void Register();
+void login();
+void register();
+
+void save();
+void menu();
+void buy();
 
 int main()
 {
@@ -29,9 +33,9 @@ int main()
     cin >> option;
 
     if (option == 1)
-        Login();
+        login();
     else if (option == 2)
-        Register();
+        register();
     else if (option == 3)
         exit(0);
     else
@@ -45,7 +49,7 @@ int main()
     }
 }
 
-void Login()
+void login()
 {
     char username[30],password[20];
     struct user u{};
@@ -60,7 +64,7 @@ void Login()
     cin >> u.username;
     cout << "Password: ";
     cin >> u.password;
-    //Line below is the cause of issue
+	
     char line[100];
     int buff_1, buff_2, status = 0;
 
@@ -122,7 +126,7 @@ void Login()
     fclose(file_userData);
 }
 
-void Register()
+void register()
 {
     FILE *file_userData = fopen("userData.csv", "a");
     struct user u{};
