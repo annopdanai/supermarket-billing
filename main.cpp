@@ -1,11 +1,9 @@
-//Login and registration system still not work
-//but this is how it's supposed to look like
-//TODO:Fix read/write file bug for login/register
+//Known errors
+//1. Login system doesn't work
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <conio.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 #include <iostream>
 #include <fstream>
 
@@ -23,94 +21,88 @@ void Register();
 
 int main()
 {
-    printf("Welcome!\n");
-    printf("If you're guest, please register. If you're member, please login.\n\n");
-    printf("Option\n");
-    printf("1. Login\n");
-    printf("2. Register\n");
-    printf("3. Exit\n"); // still not update in github
+    cout << "Welcome!" << endl;
+    cout << "If you're guest, please register. If you're member, please login.\n" << endl;
+    cout << "Option" << endl;
+    cout << "1. Login" << endl; //Need to fix
+    cout << "2. Register" << endl;
+    cout << "3. Exit" << endl;
 
-    printf("Enter your option: ");
-    scanf("%d", &option);
+    cout << endl << "Enter your option: ";
+    cin >> option;
 
     if (option == 1)
         Login();
     else if (option == 2)
         Register();
     else if (option == 3)
-        exit(1);
+        exit(0);
     else
     {
-        /*
-         //Mac&Linux//
-         printf("\nWrong choice\n\n");
-         printf("Please input anything to continue ... \t");
-         system("read")
-        */
-        
-        //Windows//
-        char buffer[20];
-        printf("\nWrong choice\n\n");
-        printf("Please input anything to continue ... \t");
-        scanf("%s", buffer);
+        cout << "\nWrong choice\n\n";
+        cout << "Press any key to continue... " << endl;
+        getchar();
+        getchar();
+        if (system("CLS")) system("clear");
+        main();
     }
-    if (system("CLS")) system("clear");
-    main();
 }
 
 void Login()
 {
     char username[30],password[20];
-    struct user user;
-    FILE *userData = fopen("userData.txt", "r");
-    if (userData == NULL)
+    struct user u{};
+    FILE *file_userData = fopen("userData.txt", "r");
+    if (file_userData == nullptr)
     {
         fputs("Error at opening file!", stderr);
         exit(1);
     }
-    printf("Please enter your login credentials below\n\n");
-    printf("Username: ");
-    scanf("%s",user.username);
-    printf("\nPassword: ");
-    scanf("%s",user.password);
-    printf("\n");
-    while(fread(&user,sizeof(user),1,userData))
+    cout << endl << "Please enter your login credentials below\n" << endl;
+    cout << "Username: ";
+    cin >> u.username;
+    cout << "Password: ";
+    cin >> u.password;
+    //Line below is the cause of issue
+    while(fread(&u,sizeof(u),1,file_userData))
     {
         if(strcmp(username,"admin")==0 && strcmp(password,"password")==0)
         {
-            printf("\nSuccessful Login\n");
+            cout << "\nSuccessful Login\n";
         }
-        else if(strcmp(username,user.username)==0 && strcmp(password,user.password)==0)
+        else if(strcmp(username,u.username)==0 && strcmp(password,u.password)==0)
         {
-            printf("\nSuccessful Login\n");
-            printf("\nUsername: %s\n", username);
+            cout << "\nSuccessful Login\n";
+            cout << "\nUsername: %s << username\n";
+            cout << "\nPassword: %s << password\n";
         }
         else
         {
-            printf("\nIncorrect Login Details\nPlease enter the correct credentials\n");
+            cout << "\nIncorrect Login Details\nPlease enter the correct credentials\n";
         }
     }
-    fclose(userData);
+    fclose(file_userData);
 }
 
 void Register()
 {
     FILE *file_userData = fopen("userData.txt", "a");
-    struct user u;
+    struct user u{};
     
-    printf("\nStart registration process\n");
-    printf("Please enter your credentials below\n\n");
+    cout << "\nStart registration process" << endl;
+    cout << "Please enter your credentials below" << endl;
 
-    printf("Username: ");
-    scanf("%s",u.username);
+    cout << endl << "Username: ";
+    cin >> u.username;
 
-    printf("Password: ");
-    scanf("%s",u.password);
+    cout << "Password: ";
+    cin >> u.password;
 
-    printf("\n--- Registration complete ---\nUsername: %s Password: %s\n", u.username, u.password);
+    cout << "\n--- Registration complete ---" << endl;
+    cout << "Username: " << u.username << endl;
+    cout << "Password: " << u.password << endl << endl;
 
-    printf("\n");
-    fprintf(file_userData, "Username: %s Password: %s \n", u.username, u.password);
+    fprintf(file_userData, "%s %s \n", u.username, u.password);
     fclose(file_userData);
     main();
 }
@@ -133,12 +125,12 @@ public:
 		cout << endl << "Enter Price: ";
 		cin >> price;
 	}
-	int getProduct()
+	int getProduct() const
 	{
 		return number;
 	}
 
-	float getPrice()
+	float getPrice() const
 	{
 		return price;
 	}
