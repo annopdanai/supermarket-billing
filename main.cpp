@@ -1,6 +1,3 @@
-//Known errors
-//1. Login system doesn't work
-
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -52,7 +49,7 @@ void Login()
 {
     char username[30],password[20];
     struct user u{};
-    FILE *file_userData = fopen("userData.txt", "r");
+    FILE *file_userData = fopen("userData.csv", "r");
     if (file_userData == nullptr)
     {
         fputs("Error at opening file!", stderr);
@@ -64,31 +61,72 @@ void Login()
     cout << "Password: ";
     cin >> u.password;
     //Line below is the cause of issue
-    while(fread(&u,sizeof(u),1,file_userData))
+    char line[100];
+    int buff_1, buff_2, status = 0;
+
+    while(fgets(line, sizeof(line), file_userData))
     {
-        if(strcmp(username,"admin")==0 && strcmp(password,"password")==0)
+        buff_1 = 0;
+
+        for(int i = 0; i < strlen(line); i++)
+            {
+                if(line[i] == ',')
+                {
+                    username[buff_1] = NULL;
+                    break;
+                }
+                else
+                {
+                    username[buff_1] = line[i];
+                    buff_1++;
+                }
+            }
+
+        if(strcmp(username, u.username) == 0)
         {
-            cout << "\nSuccessful Login\n";
-        }
-        else if(strcmp(username,u.username)==0 && strcmp(password,u.password)==0)
-        {
-            cout << "\nSuccessful Login\n";
-            cout << "\nUsername: %s << username\n";
-            cout << "\nPassword: %s << password\n";
-        }
-        else
-        {
-            cout << "\nIncorrect Login Details\nPlease enter the correct credentials\n";
+            buff_1 = 0;
+            buff_2 = 0;
+
+            while(line[buff_2] != ',')
+                buff_2++;
+
+            buff_2++;
+            while(line[buff_2] != '\n')
+            {
+                password[buff_1] = line[buff_2];
+                buff_2++;
+                buff_1++;
+            }
+            password[buff_1] = NULL;
+
+
+            if(strcmp(u.password,password) == 0)
+            {
+                status = 1;
+                break;
+            }
+            else
+            {
+                status = -1;
+                break;
+            }
         }
     }
+
+    if(status == 1)
+        printf("Log in successfully");
+    else if(status == -1)
+        printf("Password incorrect");
+    else
+        printf("Username incorrect");
     fclose(file_userData);
 }
 
 void Register()
 {
-    FILE *file_userData = fopen("userData.txt", "a");
+    FILE *file_userData = fopen("userData.csv", "a");
     struct user u{};
-    
+
     cout << "\nStart registration process" << endl;
     cout << "Please enter your credentials below" << endl;
 
@@ -102,7 +140,7 @@ void Register()
     cout << "Username: " << u.username << endl;
     cout << "Password: " << u.password << endl << endl;
 
-    fprintf(file_userData, "%s %s \n", u.username, u.password);
+    fprintf(file_userData, "%s,%s\n", u.username, u.password);
     fclose(file_userData);
     main();
 }
