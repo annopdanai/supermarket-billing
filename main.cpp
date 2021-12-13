@@ -51,34 +51,19 @@ int main()
 void Login()
 {
     char username[30],password[20];
-<<<<<<< HEAD:main.c
-    struct user u;
-    FILE *file_userData = fopen("userData.txt", "r");
-    if (file_userData == NULL)
-=======
     struct user u{};
     FILE *file_userData = fopen("userData.txt", "r");
     if (file_userData == nullptr)
->>>>>>> develop-beam:main.cpp
     {
         fputs("Error at opening file!", stderr);
         exit(1);
     }
-<<<<<<< HEAD:main.c
-    printf("Please enter your login credentials below\n\n");
-    printf("Username: ");
-    scanf("%s",u.username);
-    printf("\nPassword: ");
-    scanf("%s",u.password);
-    printf("\n");
-=======
     cout << endl << "Please enter your login credentials below\n" << endl;
     cout << "Username: ";
     cin >> u.username;
     cout << "Password: ";
     cin >> u.password;
     //Line below is the cause of issue
->>>>>>> develop-beam:main.cpp
     while(fread(&u,sizeof(u),1,file_userData))
     {
         if(strcmp(username,"admin")==0 && strcmp(password,"password")==0)
