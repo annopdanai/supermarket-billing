@@ -4,6 +4,9 @@
 #include <iostream>
 #include <fstream>
 
+#define ADMIN_USERNAME "admin"
+#define ADMIN_PASSWORD "password"
+
 using namespace std;
 
 struct user{
@@ -86,6 +89,13 @@ void login()
                 }
             }
 
+	if(strcmp(username, ADMIN_USERNAME) == 0)
+        {
+            if(strcmp(password, ADMIN_PASSWORD) == 0)
+                status = 2;
+                break;
+        }
+	    
         if(strcmp(username, u.username) == 0)
         {
             buff_1 = 0;
@@ -116,8 +126,9 @@ void login()
             }
         }
     }
-
-    if(status == 1)
+    if(status = 2)
+        printf("You've logged in as admin");
+    else if(status == 1)
         printf("Log in successfully");
     else if(status == -1)
         printf("Password incorrect");
@@ -140,6 +151,13 @@ void register()
     cout << "Password: ";
     cin >> u.password;
 
+    while(strcmp(u.username, ADMIN_USERNAME) == 0)
+    {
+        cout << "You can't register as admin" << endl;
+        cout << endl << "Username: ";
+        cin >> u.username;
+    }
+	
     cout << "\n--- Registration complete ---" << endl;
     cout << "Username: " << u.username << endl;
     cout << "Password: " << u.password << endl << endl;
