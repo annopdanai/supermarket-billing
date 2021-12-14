@@ -1,7 +1,5 @@
 #include <cstdio>
 #include <cstring>
-#include <cstdio>
-#include <cstring>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
@@ -35,6 +33,8 @@ public:
             cout << "You can't register as admin" << endl;
             cout << endl << "Username: ";
             cin >> username;
+            cout << "Password: ";
+            cin >> password;
         }
         cout << "\n--- Registration complete ---" << endl;
         cout << "Username: " << username << endl;
@@ -59,30 +59,34 @@ public:
         file.read(reinterpret_cast<char*>(this), sizeof(*this));
         while (!file.eof())
         {
+            if (strcmp(u, ADMIN_USERNAME) == 0)
+            {
+                if (strcmp(pass, ADMIN_PASSWORD) == 0)
+                {
+                    status = 2;
+                    break;
+                }
+            }
             if (strcmp(username, u) == 0)
             {
                 if (strcmp(password, pass) == 0)
                 {
                     status = 1;
+                    break;
                 }
-            }
-            if (strcmp(username, ADMIN_USERNAME) == 0)
-            {
-                if (strcmp(password, ADMIN_PASSWORD) == 0)
-                    status == 2;
             }
             file.read(reinterpret_cast<char*>(this), sizeof(*this));
 
         }
         system("cls");
-        if (status == 1) 
-            cout << "log in successful",buy();
+        if (status == 2)
+            cout << "Logged in as admin",save();
 
-        else if (status == 2)
-            cout << "loged in as admin",save();
+        else if (status == 1)
+            cout << "Logged in as " << username,buy();
             
         else
-            cout << "incorrect user or password";
+            cout << "Incorrect user or password";
         file.close();
         return 0;
         
@@ -109,12 +113,12 @@ public:
         cout << endl << "Enter Price: ";
         cin >> price;
     }
-    int getProduct()
+    int getProduct() const
     {
         return number;
     }
 
-    float getPrice()
+    float getPrice() const
     {
         return price;
     }
@@ -193,7 +197,7 @@ void buy()
     cout << "\n\n\t\t\t\t\t\t\tTOTAL = " << total;
     getchar();
 }
-int main(int argc, char* argv[])
+int main()
 {
 	system("cls");
 	int option;
@@ -209,7 +213,7 @@ int main(int argc, char* argv[])
 
 		cout << "\n\tOption: ";
 		cin >> option;
-        user u;
+        user u{};
 		switch (option)
 		{
 		case 1: system("cls");
