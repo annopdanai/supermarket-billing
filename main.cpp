@@ -78,7 +78,7 @@ public:
             file.read(reinterpret_cast<char*>(this), sizeof(*this));
 
         }
-        system("cls");
+        if (system("CLS")) system("clear");
         if (status == 2)
             cout << "Logged in as admin",save();
 
@@ -137,13 +137,13 @@ void save()
     produc.create();
     fp.write((char*)&produc, sizeof(product));
     fp.close();
-    system("cls");
+    if (system("CLS")) system("clear");
     cout << endl << endl << "Product created";
 }
 
 void menu()
 {
-    system("cls");
+    if (system("CLS")) system("clear");
     fp.open("item.txt", ios::in);
 
     cout << endl << endl << "\t\tProduct MENU\n\n";
@@ -176,7 +176,7 @@ void buy()
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
     getchar();
-    system("cls");
+    if (system("CLS")) system("clear");
     cout << "\nProduct No.\tProduct Name\tAmount \t\tPrice \t\tTotal ";
     for (int x = 0;x <= c;x++)
     {
@@ -199,7 +199,7 @@ void buy()
 }
 int main()
 {
-	system("cls");
+	if (system("CLS")) system("clear");
 	int option;
 
 	for (;;)
@@ -216,18 +216,18 @@ int main()
         user u{};
 		switch (option)
 		{
-		case 1: system("cls");
+		case 1: if (system("CLS")) system("clear");
 			u.login();
 			break;
 
-		case 2: system("cls");
+		case 2: if (system("CLS")) system("clear");
 			u.Register();
 			break;
 
 		case 3:
 			exit(0);
 
-		default:system("cls");
+		default:if (system("CLS")) system("clear");
 			cout << "Enter 1 - 3 only\n";
 
 		}
