@@ -7,8 +7,10 @@
 #define ADMIN_USERNAME "admin"
 #define ADMIN_PASSWORD "password"
 
-void buy();
+void buy(char username[]);
 void save();
+void admin_menu();
+void user_menu(char username[]);
 
 using namespace std;
 fstream file;
@@ -26,7 +28,7 @@ public:
         cout << endl << "Username: ";
         cin >> username;
         cout << "Password: ";
-        cin >> password; 
+        cin >> password;
 
         while (strcmp(username, ADMIN_USERNAME) == 0)
         {
@@ -48,7 +50,7 @@ public:
     {
         char u[20];
         char pass[20];
-        int status{};
+        int status;
         cout << "\n\t\tPlease enter your login credentials below\n";
         cout << "\tUsername: ";
         cin >> u;
@@ -78,18 +80,23 @@ public:
             file.read(reinterpret_cast<char*>(this), sizeof(*this));
 
         }
-        if (system("CLS")) system("clear");
+        system("cls");
         if (status == 2)
-            cout << "Logged in as admin",save();
+            cout << "Logged in as admin",admin_menu();
 
         else if (status == 1)
-            cout << "Logged in as " << username,buy();
-            
+        {
+            cout << "Logged in as user: " << username;
+
+            user_menu(username);
+
+        }
+
         else
             cout << "Incorrect user or password";
         file.close();
         return 0;
-        
+
     }
 
 
@@ -137,13 +144,16 @@ void save()
     produc.create();
     fp.write((char*)&produc, sizeof(product));
     fp.close();
-    if (system("CLS")) system("clear");
+    system("cls");
     cout << endl << endl << "Product created";
 }
 
 void menu()
 {
-    if (system("CLS")) system("clear");
+    system("cls");
+    int option;
+	for (;;)
+	{
     fp.open("item.txt", ios::in);
 
     cout << endl << endl << "\t\tProduct MENU\n\n";
@@ -155,19 +165,58 @@ void menu()
         cout << produc.getProduct() << "\t\t" << produc.getName() << "\t\t" << produc.getPrice() << endl;
     }
     fp.close();
+
+
+
+		cout << "\n\t----------------------------------------";
+		cout << "\n\t1. Save";
+		cout << "\n\t2. Back";
+		cout << "\n\t----------------------------------------";
+
+		cout << "\n\tOption: ";
+		cin >> option;
+
+		switch (option)
+		{
+		case 1: system("cls");
+			save();
+			break;
+
+		case 2: system("cls");
+			admin_menu();
+			break;
+
+		default:system("cls");
+            cout << "Logged in as admin\n";
+			cout << "Enter 1 - 2 only\n";
+
+		}
+}
 }
 
-void buy()
+void buy(char username[])
 {
     int order_arr[50], quan[50], c = 0;
     float amount, total = 0;
     char ch = 'Y';
-    menu();
+
+    fp.open("item.txt", ios::in);
+    cout << "Logged in as user: " << username << endl ;
+    cout << endl << endl << "\t\tProduct MENU\n\n";
+    cout << "-----------------------------------------------------\n";
+    cout << "P.NO.\t\tNAME\t\tPRICE\n";
+    cout << "-----------------------------------------------------\n";
+    while (fp.read((char*)&produc, sizeof(product)))
+    {
+        cout << produc.getProduct() << "\t\t" << produc.getName() << "\t\t" << produc.getPrice() << endl;
+    }
+
+    fp.close();
     cout << "\n--------------------------------------------------";
     cout << "\n SELECT ORDER";
     cout << "\n--------------------------------------------------\n";
     do {
-        cout << "\n\nEnter Product no.: ";
+        cout << "\n\nEnter Product no. : ";
         cin >> order_arr[c];
         cout << "\nEnter Amount: ";
         cin >> quan[c];
@@ -176,7 +225,9 @@ void buy()
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
     getchar();
-    if (system("CLS")) system("clear");
+    system("cls");
+
+    cout << "Logged in as user: " << username << endl ;
     cout << "\nProduct No.\tProduct Name\tAmount \t\tPrice \t\tTotal ";
     for (int x = 0;x <= c;x++)
     {
@@ -194,12 +245,23 @@ void buy()
         }
         fp.close();
     }
+
+
     cout << "\n\n\t\t\t\t\t\t\tTOTAL = " << total;
+
+    cout << "\n\n\n\t--------------------------------------------------";
+    cout << "\n\t|            Thank for your purchase             |";
+    cout << "\n\t--------------------------------------------------";
+
+    cout << "\n\nPress enter to continue";
     getchar();
+    system("cls");
+    cout << "Logged in as user: " << username << endl ;
+    user_menu(username);
 }
 int main()
 {
-	if (system("CLS")) system("clear");
+	system("cls");
 	int option;
 
 	for (;;)
@@ -216,21 +278,88 @@ int main()
         user u{};
 		switch (option)
 		{
-		case 1: if (system("CLS")) system("clear");
+		case 1: system("cls");
 			u.login();
 			break;
 
-		case 2: if (system("CLS")) system("clear");
+		case 2: system("cls");
 			u.Register();
 			break;
 
 		case 3:
 			exit(0);
 
-		default:if (system("CLS")) system("clear");
+		default:system("cls");
 			cout << "Enter 1 - 3 only\n";
 
 		}
 
+	}
+}
+
+void admin_menu()
+{
+	int option;
+	for (;;)
+	{
+
+		cout << "\n\t----------------------------------------";
+		cout << "\n\t1. Menu";
+		cout << "\n\t2. Save";
+		cout << "\n\t3. Log out";
+		cout << "\n\t----------------------------------------";
+
+		cout << "\n\tOption: ";
+		cin >> option;
+
+		switch (option)
+		{
+		case 1: system("cls");
+			menu();
+			break;
+
+		case 2: system("cls");
+			save();
+			break;
+
+		case 3:
+			main();
+
+		default:system("cls");
+            cout << "Logged in as admin\n";
+			cout << "Enter 1 - 3 only\n";
+
+		}
+
+	}
+}
+
+void user_menu(char username[])
+{
+	int option;
+	for (;;)
+	{
+
+		cout << "\n\t----------------------------------------";
+		cout << "\n\t1. Buy";
+		cout << "\n\t2. Log out";
+		cout << "\n\t----------------------------------------";
+
+		cout << "\n\tOption: ";
+		cin >> option;
+
+		switch (option)
+		{
+		case 1: system("cls");
+			buy(username);
+			break;
+
+		case 2:
+			main();
+
+		default:system("cls");
+            cout << "Logged in as user: " << username;
+			cout << "\nEnter 1 - 2 only\n";
+		}
 	}
 }
