@@ -50,7 +50,7 @@ public:
     {
         char u[20];
         char pass[20];
-        int status;
+        int status = 0;
         cout << "\n\t\tPlease enter your login credentials below\n";
         cout << "\tUsername: ";
         cin >> u;
@@ -80,7 +80,8 @@ public:
             file.read(reinterpret_cast<char*>(this), sizeof(*this));
 
         }
-        system("cls");
+        file.close();
+        if (system("CLS")) system("clear");
         if (status == 2)
             cout << "Logged in as admin",admin_menu();
 
@@ -94,7 +95,6 @@ public:
 
         else
             cout << "Incorrect user or password";
-        file.close();
         return 0;
 
     }
@@ -144,13 +144,13 @@ void save()
     produc.create();
     fp.write((char*)&produc, sizeof(product));
     fp.close();
-    system("cls");
+    if (system("CLS")) system("clear");
     cout << endl << endl << "Product created";
 }
 
 void menu()
 {
-    system("cls");
+    if (system("CLS")) system("clear");
     int option;
 	for (;;)
 	{
@@ -178,15 +178,15 @@ void menu()
 
 		switch (option)
 		{
-		case 1: system("cls");
+		case 1: if (system("CLS")) system("clear");
 			save();
 			break;
 
-		case 2: system("cls");
+		case 2: if (system("CLS")) system("clear");
 			admin_menu();
 			break;
 
-		default:system("cls");
+		default:if (system("CLS")) system("clear");
             cout << "Logged in as admin\n";
 			cout << "Enter 1 - 2 only\n";
 
@@ -225,7 +225,7 @@ void buy(char username[])
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
     getchar();
-    system("cls");
+    if (system("CLS")) system("clear");
 
     cout << "Logged in as user: " << username << endl ;
     cout << "\nProduct No.\tProduct Name\tAmount \t\tPrice \t\tTotal ";
@@ -255,13 +255,13 @@ void buy(char username[])
 
     cout << "\n\nPress enter to continue";
     getchar();
-    system("cls");
+    if (system("CLS")) system("clear");
     cout << "Logged in as user: " << username << endl ;
     user_menu(username);
 }
 int main()
 {
-	system("cls");
+	if (system("CLS")) system("clear");
 	int option;
 
 	for (;;)
@@ -278,18 +278,18 @@ int main()
         user u{};
 		switch (option)
 		{
-		case 1: system("cls");
+		case 1: if (system("CLS")) system("clear");
 			u.login();
 			break;
 
-		case 2: system("cls");
+		case 2: if (system("CLS")) system("clear");
 			u.Register();
 			break;
 
 		case 3:
 			exit(0);
 
-		default:system("cls");
+		default:if (system("CLS")) system("clear");
 			cout << "Enter 1 - 3 only\n";
 
 		}
@@ -314,18 +314,18 @@ void admin_menu()
 
 		switch (option)
 		{
-		case 1: system("cls");
+		case 1: if (system("CLS")) system("clear");
 			menu();
 			break;
 
-		case 2: system("cls");
+		case 2: if (system("CLS")) system("clear");
 			save();
 			break;
 
 		case 3:
 			main();
 
-		default:system("cls");
+		default:if (system("CLS")) system("clear");
             cout << "Logged in as admin\n";
 			cout << "Enter 1 - 3 only\n";
 
@@ -350,14 +350,14 @@ void user_menu(char username[])
 
 		switch (option)
 		{
-		case 1: system("cls");
+		case 1: if (system("CLS")) system("clear");
 			buy(username);
 			break;
 
 		case 2:
 			main();
 
-		default:system("cls");
+		default:if (system("CLS")) system("clear");
             cout << "Logged in as user: " << username;
 			cout << "\nEnter 1 - 2 only\n";
 		}
