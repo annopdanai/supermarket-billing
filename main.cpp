@@ -151,7 +151,7 @@ void save()
 void delete_product()
 {
     int pNum;
-    cout << "enter the number of product to delete: ";
+    cout << "Enter the number of product to delete: ";
     cin >> pNum;
     fp.open("item.txt", ios::in | ios::out);
     fstream fp2;
