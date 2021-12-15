@@ -7,4 +7,4 @@ We are willing to make a supermarket billing program for giving service both use
 * Thachawich Maneepakhathorn (64011657)
 * Thanawat Rodklay (64011671)
 ## Flowchart 
-![Flowchart](flowchart.png)
+![Flowchart](docs/flowchart.png)
